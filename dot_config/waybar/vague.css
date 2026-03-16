@@ -1,0 +1,46 @@
+/*
+*
+* Vague Color Palette
+* caidenblock
+*
+*/
+
+@define-color base   #141415;
+@define-color mantle #1c1c24;
+@define-color crust  #252530;
+
+@define-color text     #cdcdcd;
+@define-color subtext0 #a6adc8;
+@define-color subtext1 #bac2de;
+
+@define-color surface0 #313244;
+@define-color surface1 #45475a;
+@define-color surface2 #585b70;
+
+@define-color overlay0 #6c7086;
+@define-color overlay1 #7f849c;
+@define-color overlay2 #9399b2;
+
+@define-color yellow    #f3be7c;
+@define-color yellow1    #e8b589;
+@define-color yellow2    #e0a363;
+@define-color peach    #c48282;
+@define-color red    #d8647e;
+@define-color cerulean    #405065;
+@define-color lavender    #c3c3d5;
+@define-color cyan    #aeaed1;
+@define-color pink    #bb9dbd;
+@define-color aqua    #b4d4cf;
+@define-color aqua1    #90a0b5;
+@define-color aqua2    #9bb4bc;
+@define-color teal    #6e94b2;
+@define-color blue    #7e98e8;
+@define-color green     #7fa563;
+
+/* catppuccin -> vague compat */
+@define-color sapphire  @teal;
+@define-color sky       @cerulean;
+@define-color maroon    @red;
+@define-color mauve     #cba6f7;
+@define-color flamingo  @yellow1;
+@define-color rosewater @yellow2;

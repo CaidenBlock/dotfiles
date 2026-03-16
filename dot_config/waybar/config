@@ -1,0 +1,114 @@
+{
+    "position": "top", // Waybar position (top|bottom|left|right)
+    "height": 48, // Waybar height (to be removed for auto height)
+    // "width": 1280, // Waybar width
+    "spacing": 8, // Gaps between modules (4px)
+    // Choose the order of the modules
+    "modules-left": ["sway/workspaces", "sway/mode", "custom/media", "custom/kdeconnect"],
+    "modules-center": ["tray"],
+    "modules-right": ["pulseaudio", "network", "cpu", "backlight", "battery", "battery#bat2", "clock#date", "clock#time"],
+    // Modules configuration
+    // "sway/workspaces": {
+    //     "disable-scroll": true,
+    //     "all-outputs": true,
+    //     "format": "{name}: {icon}",
+    //     "format-icons": {\
+    //         "1": "",
+    //         "2": "",
+    //         "3": "",
+    //         "4": "",
+    //         "5": "",
+    //         "urgent": "",
+    //         "focused": "",
+    //         "default": ""
+    //     }
+    // },
+    "sway/mode": {
+        "format": "<span style=\"italic\">{}</span>"
+    },
+    "tray": {
+        // "icon-size": 21,
+        "spacing": 10
+    },
+    "clock#time": {
+        "interval": 1,
+        "format": "{:%H:%M:%S}",
+        "tooltip": false
+    },
+
+    "clock#date": {
+      "interval": 10,
+      "format": "{:%d %b %Y} ", // Icon: calendar-alt
+      "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+    },
+    "cpu": {
+        "format": "{usage}% ",
+        "tooltip": false
+    },
+   
+    "backlight": {
+        // "device": "acpi_video1",
+        "format": "{percent}% {icon}",
+        "format-icons": ["", "", "", "", "", "", "", "", ""]
+    },
+    "battery": {
+        "states": {
+            // "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{capacity}% {icon}",
+        "format-charging": "{capacity}% ",
+        "format-plugged": "{capacity}% ",
+        "format-alt": "{time} {icon}",
+        // "format-good": "", // An empty format will hide the module
+        // "format-full": "",
+        "format-icons": ["", "", "", "", ""]
+    },
+    "battery#bat2": {
+        "bat": "BAT2"
+    },
+    "network": {
+        // "interface": "wlp2*", // (Optional) To force the use of this interface
+        //"on-click": "iwctl known-networks list | cut -d' ' -f3 | sed -e'1,4d'",
+        "tooltip-format": "{}",
+        "format-wifi": "{essid} ({signalStrength}%) ",
+        "format-ethernet": "{ipaddr}/{cidr} ",
+        "format-linked": "{ifname} (No IP) ",
+        "format-disconnected": "Disconnected ⚠",
+        "format-alt": "{ifname}: {ipaddr}/{cidr}"
+    },
+    "pulseaudio": {
+        //"scroll-step": 1, // %, can be a float
+        "format": "{volume}% {icon} {format_source}",
+        "format-bluetooth": "{volume}% {icon} {format_source}",
+        "format-bluetooth-muted": " {icon} {format_source}",
+        "format-muted": " {format_source}",
+        "format-source": "{volume}% ",
+        "format-source-muted": "",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        },
+        "on-click": "pavucontrol"
+    },
+    "custom/media": {
+        "format": "{icon} {}",
+        "return-type": "json",
+        "max-length": 40,
+        "format-icons": {
+            "spotify": "",
+            "default": "🎜"
+        },
+        "escape": true,
+        "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
+        // "exec": "$HOME/.config/waybar/mediaplayer.py --player spotify 2> /dev/null" // Filter player based on name
+    }
+}
+
+
