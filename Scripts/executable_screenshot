@@ -1,0 +1,5 @@
+#!/bin/bash
+#grim -g "$(slurp)" - | swappy -f -
+#grim -g "$(slurp)"wayfreeze --after-freeze-cmd 'grim -g "$(slurp)" - | swappy -f -; killall wayfreeze'
+
+wayfreeze --after-freeze-cmd 'grim -g "$(slurp)" - | tee /tmp/snap.png >/dev/null; killall wayfreeze; swappy -f /tmp/snap.png; rm /tmp/snap.png'
