@@ -6,7 +6,7 @@
     // Choose the order of the modules
     "modules-left": ["sway/workspaces", "sway/mode", "custom/media", "custom/kdeconnect"],
     "modules-center": ["tray"],
-    "modules-right": ["pulseaudio", "network", "cpu", "backlight", "battery", "battery#bat2", "clock#date", "clock#time"],
+    "modules-right": ["pulseaudio", "network#vpn", "network", "cpu", "backlight", "battery", "battery#bat2", "clock#date", "clock#time"],
     // Modules configuration
     // "sway/workspaces": {
     //     "disable-scroll": true,
@@ -71,14 +71,19 @@
     "network": {
         // "interface": "wlp2*", // (Optional) To force the use of this interface
         //"on-click": "iwctl known-networks list | cut -d' ' -f3 | sed -e'1,4d'",
-        "tooltip-format": "{}",
         "format-wifi": "{essid} ({signalStrength}%) ",
         "format-ethernet": "{ipaddr}/{cidr} ",
         "format-linked": "{ifname} (No IP) ",
         "format-disconnected": "Disconnected ⚠",
-        "format-alt": "{ifname}: {ipaddr}/{cidr}"
+        "tooltip-format": "{ifname}: {ipaddr}/{cidr}"
     },
-    "pulseaudio": {
+		"network#vpn": {
+    		"interface": "wg0",
+    		"format-ethernet": "󰆧 {ifname}",
+				"tooltip-format": "{ipaddr}/{cidr}",
+    		"format-disconnected": ""
+		},
+		"pulseaudio": {
         //"scroll-step": 1, // %, can be a float
         "format": "{volume}% {icon} {format_source}",
         "format-bluetooth": "{volume}% {icon} {format_source}",
