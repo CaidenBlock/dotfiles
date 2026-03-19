@@ -11,7 +11,7 @@ data:
     - bob
     - yazi
   # Distro-specific extras
-{{- if eq .chezmoi.osRelease.id "arch" "manjaro" }}
+{{- if eq .chezmoi.osRelease.idLike "arch" }}
   distro_packages:
     - base-devel
     - paru
