@@ -4,7 +4,7 @@
 
 # --- 1. Distro-specific Pre-setup ---
 
-{{ if eq .chezmoi.osRelease.id "arch" "manjaro" -}}
+{{ if eq .chezmoi.osRelease.idLike "arch" -}}
 # Install Paru if missing before running the main list
 if ! command -v paru &> /dev/null; then
     echo "Installing Paru..."
