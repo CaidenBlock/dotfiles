@@ -1,0 +1,41 @@
+#!/bin/bash
+
+{{ if eq .chezmoi.os "linux" -}}
+
+# --- 1. Distro-specific Pre-setup ---
+
+{{ if eq .chezmoi.osRelease.id "arch" "manjaro" -}}
+# Install Paru if missing before running the main list
+if ! command -v paru &> /dev/null; then
+    echo "Installing Paru..."
+    sudo pacman -S --needed --noconfirm base-devel git
+    temp_dir=$(mktemp -d)
+    git clone https://aur.archlinux.org/paru.git "$temp_dir"
+    cd "$temp_dir" && makepkg -si --noconfirm && cd - && rm -rf "$temp_dir"
+fi
+{{ end -}}
+
+{{ if eq .chezmoi.osRelease.id "ubuntu" "pop" "debian" -}}
+# Add eza repo for Ubuntu if needed
+if ! command -v eza &> /dev/null; then
+    sudo mkdir -p /etc/apt/keyrings
+    wget -qO- https://raw.githubusercontent.com/eza-community/eza/main/deb.asc | sudo gpg --dearmor -o /etc/apt/keyrings/gierens.gpg
+    echo "deb [signed-by=/etc/apt/keyrings/gierens.gpg] http://deb.gierens.de stable main" | sudo tee /etc/apt/sources.list.d/gierens.list
+    sudo apt update
+fi
+{{ end -}}
+
+# --- 2. Combined Package Installation ---
+
+# Merge the common 'packages' and 'distro_packages' lists from .chezmoi.yaml.tmpl
+{{ $all_pkgs := concat .packages .distro_packages -}}
+
+{{ if eq .chezmoi.osRelease.id "arch" "manjaro" -}}
+paru -S --needed --noconfirm {{ $all_pkgs | join " " }}
+
+{{ else if eq .chezmoi.osRelease.id "ubuntu" "pop" "debian" -}}
+sudo apt install -y {{ $all_pkgs | join " " }}
+
+{{ end -}}
+
+{{ end -}}

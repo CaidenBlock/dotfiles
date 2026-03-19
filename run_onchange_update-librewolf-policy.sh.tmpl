@@ -1,0 +1,61 @@
+#!/bin/bash
+
+# Trigger script if policies.json changes
+# hash: {{ include "dot_config/librewolf/policies/policies.json" | sha256sum }}
+
+echo "Syncing LibreWolf policies and processing extensions..."
+
+SOURCE_DIR="{{ .chezmoi.homeDir }}/.config/librewolf/policies"
+TARGET_DIR="/etc/librewolf/policies"
+
+# 1. Ensure the destination directory exists
+sudo mkdir -p "$TARGET_DIR"
+
+# 2. Copy the policies.json directly
+sudo cp "$SOURCE_DIR/policies.json" "$TARGET_DIR/"
+
+# 3. Copy any standard, already-valid .xpi files (ignoring our .noid ones for now)
+for ext in "$SOURCE_DIR"/*.xpi; do
+    [ -e "$ext" ] || continue
+    if [[ "$ext" != *".noid.xpi" ]]; then
+        sudo cp "$ext" "$TARGET_DIR/"
+    fi
+done
+
+# 4. Process the .noid.xpi files
+for xpi_path in "$SOURCE_DIR"/*.noid.xpi; do
+    [ -e "$xpi_path" ] || continue # Skip if no files match
+
+    # Get the raw filename (e.g., vague-theme.noid.xpi)
+    filename=$(basename "$xpi_path")
+    
+    # Strip the .noid.xpi extension to get the base name (e.g., vague-theme)
+    basename="${filename%.noid.xpi}"
+    
+    # Dynamically generate the ID based on the file name
+    ext_id="${basename}@caiden.local"
+    
+    echo "Processing $filename -> injecting ID: $ext_id"
+    
+    # Create a safe, temporary workspace
+    temp_dir=$(mktemp -d)
+    
+    # Unzip the raw extension into the temp directory quietly
+    unzip -q "$xpi_path" -d "$temp_dir"
+    
+    # Use jq to inject the ID. 
+    # If browser_specific_settings or gecko don't exist, jq creates them automatically.
+    jq --arg id "$ext_id" '.browser_specific_settings.gecko.id = $id' "$temp_dir/manifest.json" > "$temp_dir/manifest_new.json"
+    mv "$temp_dir/manifest_new.json" "$temp_dir/manifest.json"
+    
+    # Re-zip the contents. We CD into the directory so we don't accidentally zip the parent folder!
+    (cd "$temp_dir" && zip -qr "build.xpi" *)
+    
+    # Move the newly built, valid .xpi to the system directory using sudo
+    sudo cp "$temp_dir/build.xpi" "$TARGET_DIR/${basename}.xpi"
+    
+    # Clean up the temporary workspace
+    rm -rf "$temp_dir"
+done
+
+echo "LibreWolf system policies updated successfully."

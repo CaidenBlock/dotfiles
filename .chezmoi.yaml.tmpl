@@ -1,0 +1,26 @@
+data:
+  packages:
+    - fish
+    # sway stuff
+    - sway
+    - rofi
+    - waybar
+    - wob
+    - dunst
+    # terminal stuff
+    - bob
+    - yazi
+  # Distro-specific extras
+{{- if eq .chezmoi.osRelease.id "arch" "manjaro" }}
+  distro_packages:
+    - base-devel
+    - paru
+    - librewolf-bin
+{{- else if eq .chezmoi.osRelease.id "ubuntu" "pop" "debian" }}
+  distro_packages:
+    - build-essential
+    - eza
+    - batcat
+{{- else }}
+  distro_packages: []
+{{- end }}
