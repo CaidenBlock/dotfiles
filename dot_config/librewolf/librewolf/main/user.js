@@ -1,5 +1,6 @@
 // Allow installing unsigned extensions
-user_pref("xpinstall.signatures.required", false);
+// theme is now on firefox addons
+// user_pref("xpinstall.signatures.required", false);
 
 // Enable userChrome.css / userContent.css
 user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);

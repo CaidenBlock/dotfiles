@@ -1,0 +1,20 @@
+#!/bin/bash
+
+only runs on Linux
+{{ if eq .chezmoi.os "linux" -}}
+
+# --- setup nvim with bob ---
+if command -v bob &> /dev/null; then
+    echo "--- Configuring Neovim via bob ---"
+    # Ensure bob's bin directory is in PATH for this session if it's new
+    export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
+    bob use nightly
+else
+    echo "--- bob not found, skipping Neovim setup ---"
+fi
+
+# Add any other one-liners here (e.g., tpm for tmux, etc.)
+
+{{ end -}}
+
+# vim: set ft=sh:

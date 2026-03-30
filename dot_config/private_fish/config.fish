@@ -22,3 +22,8 @@ fish_add_path "$HOME/.local/share/bob/nvim-bin"
 
 # zoxide -> z,zi
 zoxide init fish | source
+
+alias v='nvim'
+
+# paru notes
+alias pnotes='grep -F (expac -Q "%n") ~/.config/paru/pkg_notes.conf'

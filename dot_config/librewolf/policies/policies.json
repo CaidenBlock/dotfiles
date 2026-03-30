@@ -19,11 +19,10 @@
         "installation_mode": "force_installed",
         "install_url": "https://addons.mozilla.org/firefox/downloads/latest/yomitan/latest.xpi"
       },
-			"vague-theme@caiden.local": {
+			"vague-theme@caiden.cc": {
         "installation_mode": "normal_installed",
-        "install_url": "file:///etc/librewolf/policies/vague-theme.xpi",
-				"signed_state_required": false
-      }
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/vague-theme/latest.xpi"
+			}
     }
   }
 }

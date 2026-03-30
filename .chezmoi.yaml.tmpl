@@ -10,7 +10,9 @@ data:
     # terminal stuff
     - bob
     - yazi
-  # Distro-specific extras
+    - fzf
+    - zoxide
+    # Distro-specific extras
 {{- if or (eq .chezmoi.osRelease.id "arch") (eq .chezmoi.osRelease.idLike "arch") }}
   distro_packages:
     - base-devel
